@@ -1,19 +1,20 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import Login from './login';
+import { AuthProvider } from './AuthContext';
+import  Login  from './login';
 import AddCoursePage from './AddCoures';
 
 const App = () => {
-    return (
-        <Router>
-            <Switch>
-                <Route path="/login" component={Login} />
-                <Route path="/home" component={AddCoursePage} />
-
-                {/* Add other routes as needed */}
-            </Switch>
-        </Router>
-    );
+  return (
+    <AuthProvider>
+      <Router>
+        <Switch>
+          <Route exact path="/" component={Login} />
+          <Route path="/home" component={AddCoursePage} />
+        </Switch>
+      </Router>
+    </AuthProvider>
+  );
 };
 
 export default App;

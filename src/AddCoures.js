@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Form, Button, Container, Row, Col } from 'react-bootstrap';
 import axios from 'axios';
+import { useAuth } from './AuthContext';
+import Navigation from './NavBar';
+import { useHistory } from 'react-router-dom/cjs/react-router-dom';
 
 const AddCoursePage = () => {
     const [courseName, setCourseName] = useState('');
@@ -19,6 +22,9 @@ const AddCoursePage = () => {
     const [scheduleTime, setScheduleTime] = useState([]);
     const [scheduleBuilding, setScheduleBuilding] = useState([]);
     const [scheduleRoom, setScheduleRoom] = useState([]);
+    const { authenticated } = useAuth();
+    const history = useHistory();
+
 
   useEffect(() => {
     // Fetch data from the backend (replace URLs with your actual backend endpoints)
@@ -74,6 +80,10 @@ const AddCoursePage = () => {
   };
 
   return (
+    <div>
+    {authenticated ? (
+      <div>
+        <Navigation />
     <Container>
       <Row className="justify-content-center mt-5">
         <Col md={6}>
@@ -234,6 +244,42 @@ const AddCoursePage = () => {
         </Col>
       </Row>
     </Container>
+    </div>): (
+      <div
+      style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: '100vh', // 100% of the viewport height
+      }}
+    >
+      <div
+        style={{
+          textAlign: 'center',
+          padding: '20px',
+          border: '1px solid #ccc',
+          borderRadius: '5px',
+          maxWidth: '1000px',
+          width: '100%',
+        }}
+      >
+      <p style={{ color: '#DC3545', marginBottom: '0px', fontSize: '50px'}}>
+            Please log in to add a course.
+          </p>
+      <button onClick={() => history.push('/')}
+      style={{
+              fontSize: '40px',
+              backgroundColor: '#28A745',
+              color: '#FFFFFF',
+              border: 'none',
+              borderRadius: '5px',
+              cursor: 'pointer',
+            }}>
+          Login</button>
+   </div>
+   </div>
+    )}
+  </div>
   );
 };
 

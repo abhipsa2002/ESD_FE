@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Container, Form, Button, Row, Col } from 'react-bootstrap';
 import { useHistory } from 'react-router-dom';
+import { useAuth } from './AuthContext';
 
 const Login = () => {
 
@@ -8,6 +9,8 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const history = useHistory();
+  const { login } = useAuth();
+
 
   const handleLogin = async () => {
     try {
@@ -22,15 +25,17 @@ const Login = () => {
       if (response.ok) {
         // Login successful, you can redirect or set some state indicating the user is logged in
         console.log('Login successful');  //1st time
+        login();
         history.push('/home');
 
       } else {
         // Login failed
         setError('Invalid email or password');
-        history.push('/login');
+        history.push('/');
 
       }
     } catch (error) {
+      setError(error.message);
       console.error('Error during login:', error.message);
     }
   };
