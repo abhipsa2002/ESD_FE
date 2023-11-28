@@ -24,10 +24,11 @@ const AddCoursePage = () => {
     const [scheduleRoom, setScheduleRoom] = useState([]);
     const { authenticated } = useAuth();
     const history = useHistory();
+    const [error, setError] = useState('');
+    const [successMessage, setSuccessMessage] = useState('');
 
 
   useEffect(() => {
-    // Fetch data from the backend (replace URLs with your actual backend endpoints)
     const fetchData = async () => {
       try {
         const [specializationsRes, facultiesRes, prerequisitesRes] = await Promise.all([
@@ -68,13 +69,27 @@ const AddCoursePage = () => {
       };
 
     try {
-      // Make a POST request to the backend to save the course
       const response = await axios.post('http://localhost:8080/api/v1/add_course', formData);
+      setError('')
+      setSuccessMessage('Course added successfully!');
 
-      // Handle success (e.g., redirect, show a success message)
       console.log('Course created successfully:', response.data);
+      setCourseName('');
+      setCourseCode('');
+      setCapacity('');
+      setCredits('');
+      setSelectedSpecialization('');
+      setTerm('');
+      setYear('');
+      setSelectedFaculty('');
+      setSelectedPrerequisite(-1);
+      setScheduleDay([]);
+      setScheduleTime([]);
+      setScheduleBuilding([]);
+      setScheduleRoom([]);
     } catch (error) {
       // Handle errors (e.g., display an error message)
+      setError(error.message);
       console.error('Error creating course:', error.message);
     }
   };
@@ -202,8 +217,8 @@ const AddCoursePage = () => {
               <Form.Control
                 type="text"
                 placeholder="Enter schedule day"
-                value={scheduleDay.join(',')} // Convert array to comma-separated string for display
-                onChange={(e) => setScheduleDay(e.target.value.split(','))} // Convert comma-separated string to array  
+                value={scheduleDay.join(',')} 
+                onChange={(e) => setScheduleDay(e.target.value.split(','))} 
               />
             </Form.Group>
 
@@ -241,9 +256,15 @@ const AddCoursePage = () => {
               Submit
             </Button>
           </Form>
+          {error && <p style={{ color: 'red' }}>{error}</p>}
         </Col>
       </Row>
     </Container>
+    {successMessage && (
+            <div style={{ color: 'green', textAlign: 'center', marginTop: '10px' }}>
+               {successMessage} 
+            </div>
+          )}
     </div>): (
       <div
       style={{
