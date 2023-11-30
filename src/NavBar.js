@@ -4,7 +4,7 @@ import { Link, useHistory } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css'; // Import Bootstrap styles
 import { useAuth } from './AuthContext';
 import { Navbar } from 'react-bootstrap';
-
+import logo from './logo.png';
 import {Nav, Button } from 'react-bootstrap';
 
 const Navigation = () => {
@@ -22,24 +22,23 @@ const Navigation = () => {
 
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-      <div className="container-fluid">
-        <span className="navbar-brand mb-0 h1">Welcome to IIITB</span>
-        <div className="collapse navbar-collapse" id="navbarNav">
-          <ul className="navbar-nav">
-            <li className="nav-item">
-              <Link to="/home" className="nav-link">
-                Add Course
-              </Link>
-            </li>
-            
-          </ul>
-        </div>
+    <div className="container-fluid">
+      <img src={logo} alt="Logo" style={{ maxWidth: '150px', marginRight: '10px' }} /> {/* Adjust width and margin as needed */}
+      <span className="navbar-brand mb-0 h1">Welcome to IIITB</span>
+      <div className="collapse navbar-collapse" id="navbarNav">
+        <ul className="navbar-nav">
+          <li className="nav-item">
+            <Link to="/home" className="nav-link">
+              Add Course
+            </Link>
+          </li>
+        </ul>
       </div>
       <Button variant="outline-danger" onClick={handleLogout} className="ml-auto">
-            Logout
-          </Button>
-          
-    </nav>
+        Logout
+      </Button>
+    </div>
+  </nav>
   );
 };
 
